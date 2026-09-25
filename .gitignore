@@ -1,0 +1,37 @@
+# raw + intermediate sequencing data (huge, re-fetchable via fetch_reads/prefetch)
+data/raw/
+data/trimmed/
+
+# reference files (huge, rebuildable from the URLs in config.yaml/main.nf)
+data/reference/*.gz
+data/reference/*.tsv
+data/reference/salmon_index/
+data/reference/tx2gene.tsv
+
+# per-sample Salmon/FastQC/fastp detailed outputs (large; counts.csv + MultiQC report are the pushed summary)
+results/salmon/*/
+results/fastqc_raw/
+results/fastp/*.html
+results_nf/salmon/*/
+results_nf/fastqc_raw/
+results_nf/fastp/*.html
+
+# Nextflow's own scratch/work directory (many GB of per-task staged files, not meant to be versioned)
+work/
+.nextflow/
+.nextflow.log*
+
+# Snakemake's own metadata/log directory
+.snakemake/
+
+# R workspace junk (not used by this project directly, kept for consistency with portfolio convention)
+.RData
+.Rhistory
+
+# learning / private teaching files (not portfolio deliverables)
+WORKFLOW.md
+PROJECT_NARRATIVE.md
+INTERVIEW_QA.md
+INTERPRETATION.md
+RnaSeq1B_Learning_Compendium.pdf
+rnaseq1b_pipeline*.png

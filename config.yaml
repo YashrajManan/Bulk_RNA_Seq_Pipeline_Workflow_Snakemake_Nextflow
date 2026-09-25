@@ -1,0 +1,41 @@
+# =============================================================================
+# GIVEN — pipeline configuration
+# Fill SAMPLES in with the REAL SRA run accessions you resolve yourself from
+# GSE126848 (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE126848) --
+# use NCBI's SRA Run Selector or ENA's filereport API against the GEO/
+# BioProject accession to find the real run-level SRR IDs and their group
+# labels (healthy normal-weight / healthy obese / NAFL / NASH). Pick one or
+# two samples per group so the count matrix still spans the real disease
+# spectrum. This resolution step is genuinely yours to do -- it is not GIVEN
+# because "which real accession is which sample" is exactly the kind of data-
+# discovery work a real pipeline build starts with.
+# =============================================================================
+
+samples:
+  
+  SRR8601567: "healthy_normal"
+  SRR8601565: "healthy_normal"
+  SRR8601572: "healthy_obese"
+  SRR8601574: "healthy_obese"
+  SRR8601526: "nafl"
+  SRR8601527: "nafl"
+  SRR8601541: "nash"
+  SRR8601543: "nash"
+
+# how many reads (spots) to keep per sample at download time -- keeps
+# the whole pipeline fast on ordinary laptop/WSL hardware. NOTE: this study's
+# real reads are SINGLE-END (confirmed via ENA's library_layout metadata for
+# real accessions above), so "spots" here means individual reads, not pairs.
+subsample_reads: 500000
+
+# reference transcriptome (real Ensembl/GENCODE human cDNA FASTA) -- Salmon
+# indexes THIS, not the genome
+reference_transcriptome_url: "https://ftp.ensembl.org/pub/release-110/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz"
+
+# real transcript-to-gene mapping, same Ensembl release as the transcriptome
+# above -- needed to collapse Salmon's transcript-level output to gene-level
+# counts (must match the reference release exactly, or transcript IDs won't
+# line up -- a real, disclosed gotcha, see WORKFLOW.md point 4)
+tx2gene_url: "https://ftp.ensembl.org/pub/release-110/gtf/homo_sapiens/Homo_sapiens.GRCh38.110.gtf.gz"
+
+threads: 4

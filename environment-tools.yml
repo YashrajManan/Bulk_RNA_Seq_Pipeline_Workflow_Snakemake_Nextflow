@@ -1,0 +1,16 @@
+# GIVEN -- conda environment for the real bioinformatics CLI tools this
+# pipeline's rules/processes call via shell (not imported as Python
+# libraries) -- kept SEPARATE from environment.yml on purpose, see the note
+# there. Both environments need to be active on your PATH when running the
+# pipeline (activate environment.yml's env to run snakemake/nextflow
+# themselves; this env's tools get called as subprocesses from within rules).
+name: rnaseq-tools
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - sra-tools>=3.0
+  - fastqc>=0.12
+  - fastp
+  - salmon>=1.10
+  - multiqc>=1.19

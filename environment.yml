@@ -1,0 +1,15 @@
+# GIVEN -- conda environment for the WORKFLOW-ORCHESTRATION side.
+# Snakemake is deliberately NOT listed here -- its bioconda package pulls in
+# old, tightly-pinned transitive deps (dropbox, toposort, immutables) that
+# collide with a modern Python/pandas/Nextflow solve. Installed separately
+# via pip after this env is created (pip's resolver doesn't carry those
+# stale bioconda-specific pins) -- see the README note / build instructions.
+name: rnaseq-pipeline-workflow
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - python>=3.10,<3.12
+  - nextflow>=23.10
+  - pandas>=2.1
+  - pip
