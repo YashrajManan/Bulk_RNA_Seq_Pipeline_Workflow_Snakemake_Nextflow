@@ -33,16 +33,14 @@ quantification per sample) → `aggregate to gene-level counts` (real transcript
 **Mapping rate:** 88.25%–94.13% across all 8 samples, consistently strong across all four clinical
 groups. **Gene count matrix:** 34,141 genes × 8 samples. **The headline result: Snakemake's and
 Nextflow's independently-computed count matrices are byte-identical — 0 differing cells across all
-273,128 values.** Two structurally different workflow engines, debugged independently against
-genuinely different real bugs, converged exactly — the strongest verification available without an
-external ground-truth answer key.
+273,128 values.** Two structurally different workflow engines, built and debugged independently, converged
+exactly — the strongest verification available without an external ground-truth answer key.
 
-**Real bugs found and fixed during this build** (full account in `PROJECT_NARRATIVE.md`): a documented,
-unresolved `sra-tools`/`fasterq-dump` bug (worked around with the older `fastq-dump`); a wrong initial
-assumption that this study was paired-end, corrected live against real ENA metadata; two separate
-PATH-shadowing bugs from this project's deliberate environment-splitting; and three bugs specific to
-Nextflow's isolated per-task execution model (a filename collision, unresolved relative paths, and a
-shell-quoting bug caused by this project's own folder path containing a space).
+Each engine's own execution model surfaced real, engine-specific issues during the build (full account in
+`PROJECT_NARRATIVE.md`), from environment and tooling quirks to assumptions about the data that needed
+checking against real metadata rather than taken at face value. Working through each independently, then
+requiring both pipelines to agree exactly on the final result, is what makes the byte-identical outcome
+above a meaningful validation rather than a coincidence.
 
 Full results: `results/` (Snakemake run), `results_nf/` (Nextflow run) — `counts.csv` (gene × sample
 matrix) and `multiqc/multiqc_report.html` (aggregated QC) in each.
