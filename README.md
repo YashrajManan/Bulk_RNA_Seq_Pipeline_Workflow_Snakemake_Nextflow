@@ -31,19 +31,33 @@ quantification per sample) → `aggregate to gene-level counts` (real transcript
 ## Real results
 
 **Mapping rate:** 88.25%–94.13% across all 8 samples, consistently strong across all four clinical
-groups. **Gene count matrix:** 34,141 genes × 8 samples. **The headline result: Snakemake's and
-Nextflow's independently-computed count matrices are byte-identical — 0 differing cells across all
-273,128 values.** Two structurally different workflow engines, built and debugged independently, converged
-exactly — the strongest verification available without an external ground-truth answer key.
-
-Each engine's own execution model surfaced real, engine-specific issues during the build (full account in
-`PROJECT_NARRATIVE.md`), from environment and tooling quirks to assumptions about the data that needed
-checking against real metadata rather than taken at face value. Working through each independently, then
-requiring both pipelines to agree exactly on the final result, is what makes the byte-identical outcome
-above a meaningful validation rather than a coincidence.
+groups. **Gene count matrix:** 34,141 genes × 8 samples. **Snakemake's and Nextflow's
+independently-computed count matrices are byte-identical — 0 differing cells across all 273,128 values.**
 
 Full results: `results/` (Snakemake run), `results_nf/` (Nextflow run) — `counts.csv` (gene × sample
 matrix) and `multiqc/multiqc_report.html` (aggregated QC) in each.
+
+## Interpretation
+
+Two structurally different workflow engines, built and debugged independently against the identical DAG,
+converging on a byte-identical final count matrix is the strongest verification available here, since
+neither implementation was checked against an external ground-truth answer key — they were checked against
+each other. Each engine's own execution model surfaced real, engine-specific issues during the build (full
+account in `PROJECT_NARRATIVE.md`), from environment and tooling quirks to an initial assumption about
+sequencing library layout that was checked against real ENA metadata rather than taken at face value;
+working through each independently, then requiring both to agree exactly, is what makes the byte-identical
+outcome a meaningful cross-validation rather than a coincidence of two pipelines sharing the same unverified
+assumption.
+
+Bioinformatically, the pipeline's own numbers are consistent with real, structurally sound sequencing data:
+mapping rates in the high-80s-to-low-90s percent range are typical for real human RNA-seq against a
+matched-species, matched-build reference, and no sample's mapping rate is an outlier low enough to suggest a
+corrupted or mislabeled file. Consistency across all four clinical groups (healthy normal-weight, healthy
+obese, NAFL, NASH) means pipeline quality did not degrade for any one disease category. At 500,000
+subsampled reads per sample, the resulting counts are real but intentionally shallow: this project's
+deliverable is a trustworthy, reproducible upstream count matrix, not a differential-expression result —
+whether real, graded expression differences exist across the healthy-to-NASH severity spectrum is a separate
+question for a downstream differential-expression analysis at full read depth, out of this project's scope.
 
 ## License
 
